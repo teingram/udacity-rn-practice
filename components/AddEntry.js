@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
+
 import { getMetricMetaData } from '../utils/helpers'
+import DateHeader from './DateHeader'
 import Slider from './Slider'
 import Stepper from './Stepper'
 
@@ -26,6 +28,7 @@ function AddEntry() {
 
     return (
         <View>
+            <DateHeader date={new Date().toLocaleDateString()}/>
             {Object.keys(metaData).map((key) => {
                 const { getIcon, type, ...rest } = getMetricMetaData(key);
                 const value = data[key];
@@ -33,15 +36,15 @@ function AddEntry() {
                     <View>
                         {getIcon()}
                         {type === 'steppers'
-                        ? <Stepper
-                        value={value}
-                        onIncrement={() => increment(key)}
-                        onDecrement={() => decrement(key)}
-                        {...rest} />
-                        : <Slider
-                        value={value}
-                        onChange={() => slide(key, value)}
-                        {...rest}/>
+                            ? <Stepper
+                            value={value}
+                            onIncrement={() => increment(key)}
+                            onDecrement={() => decrement(key)}
+                            {...rest} />
+                            : <Slider
+                            value={value}
+                            onChange={() => slide(key, value)}
+                            {...rest}/>
                     }
                     </View>
                 )
