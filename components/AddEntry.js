@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
-import { getMetricMetaData } from '../utils/helpers'
+import { getMetricMetaData, timeToString } from '../utils/helpers'
 import DateHeader from './DateHeader'
 import Slider from './Slider'
 import Stepper from './Stepper'
+import SubmitBtn from './SubmitBtn'
 
 function AddEntry() {
-    const [data, setData] = useState({run: 0, bike: 0, swim: 0, eat: 0, sleep: 0});
+    const [data, setData] = useState({run: 10, bike: 0, swim: 0, eat: 0, sleep: 0});
 
     function increment(metric) {
         const { max, step } = getMetricMetaData(metric);
@@ -24,11 +25,22 @@ function AddEntry() {
         setData(() => data[metric] = value)
     }
 
+    function submit() {
+        const key = timeToString();
+        const newState = {run: 0, bike: 0, swim: 0, eat: 0, sleep: 0}
+        // update redux
+        // navigate to home screen
+        // save to database
+        // clear notice
+        setData(() => newState)
+    }
+
     const metaData = getMetricMetaData()
 
     return (
         <View>
             <DateHeader date={new Date().toLocaleDateString()}/>
+            <Text>{JSON.stringify(data)}</Text>
             {Object.keys(metaData).map((key) => {
                 const { getIcon, type, ...rest } = getMetricMetaData(key);
                 const value = data[key];
@@ -50,6 +62,7 @@ function AddEntry() {
                 )
             })
         }
+        <SubmitBtn onPress={submit}/>
         </View>
 
     )
