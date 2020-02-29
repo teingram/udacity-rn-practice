@@ -1,12 +1,24 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import Slider from '@react-native-community/slider';
 
-function Slider() {
+function SliderComponent({ step, max, value, unit, onChange }) {
     return (
         <View>
-            <Text>I am a Slider!</Text>
+            <Slider
+                step={step}
+                minimumValue={0}
+                maximumValue={max}
+                value={value}
+                onValueChange={onChange}
+            />
+            <View>
+                <Text>{value}</Text>
+                <Text>{unit}</Text>
+            </View>
         </View>
+
     )
 }
 
-export default Slider
+export default SliderComponent

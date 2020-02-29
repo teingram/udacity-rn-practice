@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 
 import { getMetricMetaData, timeToString } from '../utils/helpers'
 import DateHeader from './DateHeader'
-import Slider from './Slider'
+import SliderComponent from './Slider'
 import Stepper from './Stepper'
 import SubmitBtn from './SubmitBtn'
 
@@ -22,7 +22,8 @@ function AddEntry() {
     }
 
     function slide(metric, value) {
-        setData(() => data[metric] = value)
+        const newState = {...data, [metric]: value}
+        setData(newState)
     }
 
     function submit() {
@@ -32,7 +33,7 @@ function AddEntry() {
         // navigate to home screen
         // save to database
         // clear notice
-        setData(() => newState)
+        setData(newState)
     }
 
     const metaData = getMetricMetaData()
@@ -45,7 +46,7 @@ function AddEntry() {
                 const { getIcon, type, ...rest } = getMetricMetaData(key);
                 const value = data[key];
                 return (
-                    <View>
+                    <View key={key}>
                         {getIcon()}
                         {type === 'steppers'
                             ? <Stepper
@@ -53,9 +54,9 @@ function AddEntry() {
                             onIncrement={() => increment(key)}
                             onDecrement={() => decrement(key)}
                             {...rest} />
-                            : <Slider
+                            : <SliderComponent
                             value={value}
-                            onChange={() => slide(key, value)}
+                            onChange={(value) => slide(key, value)}
                             {...rest}/>
                     }
                     </View>
